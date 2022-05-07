@@ -3,18 +3,27 @@ from django.db import models
 
 # Create your models here.
 class Prueba(models.Model):
-    genero_eleccion = (
+    sexo_eleccion = (
         ('M', 'Masculino'),
         ('F', 'Femenino')
     )
     
+    estado_civil_eleccion = (
+        ( 'S','Soltero'),
+        ('C','Casado'),
+        ('V','Viudo'),
+        ('D','Divorciado'),
+        ('Co','Conviviente')
+    )
+        
     
-    slug = models.CharField(max_length=50, blank=True)
-    video = models.FileField(upload_to='videos/%Y/%m/%d/',blank=True)
-    nombre = models.CharField(max_length=100)
-    apellidos = models.CharField(max_length=100)
-    genero = models.CharField(choices=genero_eleccion,max_length=100)
+    nombre_completo = models.CharField(max_length=300)
+    estado_civil = models.CharField(choices=estado_civil_eleccion, max_length=50)
     edad = models.IntegerField()
+    sexo = models.CharField(choices=sexo_eleccion,max_length=100)
+    ocupacion = models.CharField(max_length=200)
+    educacion = models.CharField(max_length=200)
+    fecha = models.DateField(auto_now_add=True)
     pregunta01 = models.IntegerField()
     pregunta02 = models.IntegerField()
     pregunta03 = models.IntegerField()
@@ -39,8 +48,8 @@ class Prueba(models.Model):
     total = models.IntegerField()
     resultado_test = models.CharField(max_length=500, blank=True)
     estado_animico = models.CharField(max_length=800,blank=True)
-    
+    video = models.FileField(upload_to='videos/%Y/%m/%d/',blank=True)
+    slug = models.CharField(max_length=200, blank=True, unique=True)
     
     def __str__(self) -> str:
-        nombre_completo = self.apellidos + ' ' + self.nombre
-        return nombre_completo
+        return self.nombre_completo
